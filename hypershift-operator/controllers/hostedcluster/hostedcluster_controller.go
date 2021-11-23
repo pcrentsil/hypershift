@@ -1835,6 +1835,37 @@ func (r *HostedClusterReconciler) reconcileAutoscaler(ctx context.Context, hclus
 			return reconcileAutoScalerDeployment(autoScalerDeployment, hcluster, autoScalerServiceAccount, capiKubeConfigSecret, hcluster.Spec.Autoscaling, clusterAutoScalerImage, r.AvailabilityProberImage)
 		})
 		if err != nil {
+
+			/*
+					LivenessProbe: &corev1.Probe{
+                                Handler: corev1.Handler{
+                                    HTTPGet: &corev1.HTTPGetAction{
+                                        Path:   "/metrics",
+                                        Port:   intstr.FromInt(9000),
+                                        Scheme: corev1.URISchemeHTTP,
+                                    },
+                                },
+                                InitialDelaySeconds: 60,
+                                PeriodSeconds:       60,
+                                SuccessThreshold:    1,
+                                FailureThreshold:    5,
+                                TimeoutSeconds:      5,
+                            },
+                            ReadinessProbe: &corev1.Probe{
+                                Handler: corev1.Handler{
+                                    HTTPGet: &corev1.HTTPGetAction{
+                                        Path:   "/metrics",
+                                        Port:   intstr.FromInt(9000),
+                                        Scheme: corev1.URISchemeHTTP,
+                                    },
+                                },
+                                InitialDelaySeconds: 15,
+                                PeriodSeconds:       60,
+                                SuccessThreshold:    1,
+                                FailureThreshold:    3,
+                                TimeoutSeconds:      5,
+                            },
+			*/
 			return fmt.Errorf("failed to reconcile autoscaler deployment: %w", err)
 		}
 	}
